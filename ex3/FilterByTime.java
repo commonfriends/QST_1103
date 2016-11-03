@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 
 /*
@@ -19,6 +20,8 @@ public class FilterByTime {
 	
 	public static void main(String[] args) throws ParseException, FileNotFoundException{
 		SimpleDateFormat regularFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Locale locale = Locale.US;
+		SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss",locale);
 		Date beginDate = regularFormat.parse("2015-12-31 18:00:00");
 		Date endDate = regularFormat.parse("2015-12-31 19:00:00");
 		String filePath = "./data.txt";
@@ -33,8 +36,11 @@ public class FilterByTime {
 			String strTime = null;
 			strIp = a[0];
 			strTime = a[3].replace("[", "");
+			Date time = inputFormat.parse(strTime);
+			if(time.getTime()>beginDate.getTime() && time.getTime()<endDate.getTime()){
 			// 对在时间区间内的数据进行输出
-			System.out.println(strIp + "\t" + strTime);
+			System.out.println(strIp + "\t" + time);
+			}
 		}
 	}
 	
